@@ -1,5 +1,4 @@
 # ddd-karen-arcoverde
 DDD - Backend - Karen Arcoverde
 
-
-![modelo](https://user-images.githubusercontent.com/59583521/154323856-0e143c49-48f0-4c44-b8aa-c36fc5c21cad.png)
+![diagrama silver motors novo](https://user-images.githubusercontent.com/59583521/154323914-9eb4e9cf-ee8a-46e8-8bbf-74b820d04d83.png)
