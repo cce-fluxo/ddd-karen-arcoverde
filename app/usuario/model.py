@@ -1,4 +1,5 @@
 from ..extensions import db
+from app.models import BaseModel
 
 # Usuario
 # tabela que contem as configurações do usuário
@@ -24,14 +25,3 @@ class Usuario(db.Model):
 
     # cupons(many) <-> usuario(one)
     cupom = db.relationship('Cupons', backref='cupons_usuario')
-
-    def json(self):
-            return{
-                'id':self.id,
-                'nome':self.nome,
-                'cpf':self.cpf,
-                'email':self.email,
-                'telefone':self.telefone,
-                'endereco':self.endereco
-            }
-            

@@ -12,6 +12,9 @@ bcrypt = "*"
 flask-jwt-extended = "*"
 db = "*"
 migrate = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
+marshmallow = "*"
 
 [dev-packages]
 
