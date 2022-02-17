@@ -17,6 +17,6 @@ class CarrosSchema(ma.SQLAlchemySchema):
     motor = ma.String(required=True)
     estoque = ma.Integer(required=True)
     preco = ma.Integer(required=True)
-    nacional = ma.Bool(required=True)
-    importada = ma.Bool(required=True)
+    nacional = ma.Boolean(required=True)
+    importada = ma.Boolean(required=True)
     

@@ -1,5 +1,7 @@
 from ..extensions import db
 from app.models import BaseModel
+import bcrypt
+from flask_jwt_extended import create_access_token
 
 
 # Usuario
@@ -26,3 +28,19 @@ class Usuario(BaseModel):
 
     # cupons(many) <-> usuario(one)
     cupom = db.relationship('Cupons', backref='cupons_usuario')
+
+    @property
+    def senha(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @senha.setter
+    def senha(self, senha) -> None:
+        self.senha_hash = bcrypt.hashpw(
+            senha.encode(), bcrypt.gensalt())
+
+    def verify_senha(self, senha: str) -> bool:
+        return bcrypt.checkpw(senha.encode(), self.senha_hash)
+
+    def token(self) -> str:
+        return create_access_token(
+            identity=self.id)
