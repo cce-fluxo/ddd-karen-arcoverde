@@ -16,7 +16,6 @@ class UsuarioDetalhes(MethodView):
         dados = request.json      
         schema = UsuarioSchema()  
         usuario = schema.load(dados)
-
         db.session.add(usuario)
         try:
             db.session.commit()
@@ -89,9 +88,9 @@ class UsuarioLogin(MethodView):  #/login
 
         usuario = Usuario.query.filter_by(email=email).first()
 
-        if not usuario or not bcrypt.hashpw(senha.encode(), bcrypt.gensalt()):
-            return {'error': 'Usuário ou senha inválidos'}
-
+        if (not usuario) or (not bcrypt.checkpw(senha.encode(), usuario.senha_hash)):
+            return {'error':'Email ou senha inválida'}, 400
+        
         token = create_access_token(identity=usuario.id)
 
         return {"token": token},200
