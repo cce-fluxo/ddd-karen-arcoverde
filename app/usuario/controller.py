@@ -25,7 +25,6 @@ class UsuarioDetalhes(MethodView):
             abort(
                 make_response(jsonify({'errors':str(err.orig)},400)))
         
-
         return schema.dump(usuario),200
      
 class UsuarioId(MethodView): #/usuarios/<int:id>
@@ -33,8 +32,8 @@ class UsuarioId(MethodView): #/usuarios/<int:id>
     def get(self, id):
         if (get_jwt_identity() != id):
             return {'error':'Usuario não permitido'}, 400       
-        schema = filter.getSchema(
-            qs=request.args,schema_cls=UsuarioSchema)
+
+        schema = UsuarioSchema(many = True)
         
         usuario = Usuario.query.get_or_404(id)
         return schema.dump(usuario),200

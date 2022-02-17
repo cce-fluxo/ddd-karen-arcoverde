@@ -1,15 +1,6 @@
 from flask import Flask
 from app.config import Config
-from app.extensions import db, migrate, mail, jwt
-
-# models
-from app.usuario.model import Usuario
-from app.motos.model import Motos
-from app.carrinho.model import Carrinho
-from app.carrosCarrinho.model import CarrosCarrinho
-from app.cupons.model import Cupons
-from app.carros.model import Carros
-from app.motosCarrinho.model import MotosCarrinho
+from app.extensions import db, migrate,jwt,ma
 
 # routes
 from app.usuario.routes import usuario_api
@@ -31,8 +22,8 @@ def create_app():
     # inicializacao da database
     db.init_app(app)
     migrate.init_app(app,db)
-    mail.init_app(app)
     jwt.init_app(app)
+    ma.init_app(app)
 
     # rotas implementadas
     app.register_blueprint(usuario_api)

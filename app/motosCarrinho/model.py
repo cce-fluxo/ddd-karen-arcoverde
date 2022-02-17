@@ -1,5 +1,5 @@
 from app.extensions import db
-
+from app.models import BaseModel
 
 # MotosCarrinho
 # tabela que contem as motos colocadas no carrinho pelo usuário
@@ -10,7 +10,7 @@ from app.extensions import db
 # preco_unitario => preço de somente uma moto
 # preco_total => preço total de todos as motos colocadas 
 
-class MotosCarrinho(db.Model):
+class MotosCarrinho(BaseModel):
         __tablename__ = 'MotosCarrinho'
         id = db.Column(db.Integer, primary_key = True)
         modelo = db.Column(db.String(20), nullable = False)
@@ -24,13 +24,3 @@ class MotosCarrinho(db.Model):
 
         # motos(one) <-> carros carrinho(many)
         motos_id = db.Column(db.Integer, db.ForeignKey('motos.id'))
-
-        def json(self):
-                return{
-                'id':self.id,
-                'modelo':self.modelo,
-                'marca':self.marca,
-                'quantidade':self.quantidade,
-                'preco_unitario':self.preco_unitario,
-                'preco_total':self.preco_total
-                }

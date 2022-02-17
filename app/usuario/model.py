@@ -1,6 +1,7 @@
 from ..extensions import db
 from app.models import BaseModel
 
+
 # Usuario
 # tabela que contem as configurações do usuário
 # id => chave primária
@@ -10,7 +11,7 @@ from app.models import BaseModel
 # telefone => telefone residencial ou celular do usuário
 # endereco => endereço completo do usuário: rua, número, complemento etc.
 
-class Usuario(db.Model):
+class Usuario(BaseModel):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key = True)
     nome = db.Column(db.String(30), nullable = False)

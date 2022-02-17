@@ -1,4 +1,5 @@
 from app.extensions import db
+from app.models import BaseModel
 
 # Cupons
 # tabela com as informações dos cupons de desconto
@@ -8,7 +9,7 @@ from app.extensions import db
 # quantidade => quantidade de cupons disponíveis
 # categoria => se o cupom só é disponível em datas comemorativas, por exemplo, natal etc.
 
-class Cupons(db.Model):
+class Cupons(BaseModel):
         __tablename__ = 'cupons'
         id = db.Column(db.Integer, primary_key = True)
         codigo_cupom = db.Column(db.Integer, nullable = False)
@@ -21,13 +22,3 @@ class Cupons(db.Model):
 
         # carrinho(one) <-> cupons(one)
         carrinho = db.relationship("Carrinho", backref='Cupons', uselist=False)
-
-         
-        def json(self):
-                return{
-                'id':self.id,
-                'codigo_cupom':self.codigo_cupom,
-                'valor_desconto':self.valor_desconto,
-                'quantidade':self.quantidade,
-                'categoria':self.categoria
-                }
