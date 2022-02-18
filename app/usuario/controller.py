@@ -32,7 +32,7 @@ class UsuarioId(MethodView): #/usuarios/<int:id>
         if (get_jwt_identity() != id):
             return {'error':'Usuario não permitido'}, 400       
 
-        schema = UsuarioSchema(many = True)
+        schema = UsuarioSchema()
         
         usuario = Usuario.query.get_or_404(id)
         return schema.dump(usuario),200
