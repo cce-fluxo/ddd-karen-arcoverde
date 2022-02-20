@@ -14,3 +14,7 @@ class CuponsSchema(ma.SQLAlchemySchema):
     valor_desconto = ma.Integer(required=True)
     quantidade = ma.Integer(required=True)
     categoria = ma.String(required=True)
+    usuario_id = ma.Integer(load_only = True,required=True)
+    
+    # mostrar os cupons que cada usuario tem
+    usuario = ma.Nested("UsuarioSchema", many=False)

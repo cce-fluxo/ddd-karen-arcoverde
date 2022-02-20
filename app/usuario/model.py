@@ -27,7 +27,7 @@ class Usuario(BaseModel):
     carrinho = db.relationship('Carrinho', backref='Usuario', uselist=False)
 
     # cupons(many) <-> usuario(one)
-    cupom = db.relationship('Cupons', backref='cupons_usuario')
+    cupons = db.relationship('Cupons', backref='usuario')
 
     @property
     def senha(self):
