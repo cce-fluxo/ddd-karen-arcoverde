@@ -19,8 +19,8 @@ class MotosCarrinho(BaseModel):
         preco_unitario = db.Column(db.Integer, nullable = False)
         preco_total = db.Column(db.Integer, nullable = False)
 
-        # motos carrinho (many) <-> carrinho(one)
-        carrinho_id = db.Column(db.Integer, db.ForeignKey('carrinho.id'))
+        # motos carrinho(many) <-> carrinho(one)
+        carrinho = db.relationship('Carrinho', backref = 'MotosCarrinho')
 
         # motos(one) <-> carros carrinho(many)
         motos_id = db.Column(db.Integer, db.ForeignKey('motos.id'))

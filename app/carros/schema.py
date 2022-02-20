@@ -11,6 +11,7 @@ class CarrosSchema(ma.SQLAlchemySchema):
 
     id = ma.Integer(dump_only=True)
     descricao = ma.String(required=True)
+    cor = ma.String(required=True)
     modelo = ma.String(required=True)
     marca = ma.String(required=True)
     ano_fabricacao = ma.Integer(required=True)
@@ -20,3 +21,4 @@ class CarrosSchema(ma.SQLAlchemySchema):
     nacional = ma.Boolean(required=True)
     importada = ma.Boolean(required=True)
     
+    carros_id = ma.Integer(load_only = True,required=True)

@@ -20,11 +20,11 @@ class Carrinho(BaseModel):
         # carrinho(one) <-> cupons(one)
         cupons_id = db.Column(db.Integer, db.ForeignKey('cupons.id'))
 
-        # motos carrinho(many) <-> carrinho(one)
-        motos_carrinho = db.relationship('MotosCarrinho', backref = 'motosCarrinho_carrinho')
+        # carros carrinho (many) <-> carrinho(one)
+        CarrosCarrinho_id = db.Column(db.Integer, db.ForeignKey('CarrosCarrinho.id'))
 
-        # carros carrinho(many) <-> carrinho(one)
-        carros_carrinho = db.relationship('CarrosCarrinho', backref = 'carrosCarrinho_carrinho')
+        # motos carrinho (many) <-> carrinho(one)
+        MotosCarrinho_id = db.Column(db.Integer, db.ForeignKey('MotosCarrinho.id'))
 
         # carrinho(one) <-> usuario(one)
         usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))

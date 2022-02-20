@@ -20,3 +20,4 @@ class MotosSchema(ma.SQLAlchemySchema):
     nacional = ma.Boolean(required=True)
     importada = ma.Boolean(required=True)
     
+    motos_id = ma.Integer(load_only = True,required=True)
