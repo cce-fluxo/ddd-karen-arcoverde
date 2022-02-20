@@ -20,5 +20,3 @@ class CarrosSchema(ma.SQLAlchemySchema):
     preco = ma.Integer(required=True)
     nacional = ma.Boolean(required=True)
     importada = ma.Boolean(required=True)
-    
-    carros_id = ma.Integer(load_only = True,required=True)
