@@ -15,7 +15,11 @@ class CarrosCarrinhoDetalhes(MethodView):
     def post(self):
         dados = request.json        
     
-        schema = CarrosCarrinhoSchema()     
+        schema = CarrosCarrinhoSchema()    
+        quantidade = dados["quantidade"]
+        preco_unitario = dados["preco_unitario"]
+        preco_total = quantidade * preco_unitario
+        dados["preco_total"] = preco_total
 
         carroscarrinho = schema.load(dados)
 

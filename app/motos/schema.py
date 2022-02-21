@@ -19,3 +19,4 @@ class MotosSchema(ma.SQLAlchemySchema):
     preco = ma.Integer(required=True)
     nacional = ma.Boolean(required=True)
     importada = ma.Boolean(required=True)
+    
