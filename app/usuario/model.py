@@ -24,7 +24,8 @@ class Usuario(BaseModel):
     senha_hash = db.Column(db.String(200),nullable = False) 
 
     # carrinho(one) <-> usuario(one)
-    carrinho = db.relationship('Carrinho', backref='Usuario', uselist=False)
+    carrinho_id = db.Column(db.Integer, db.ForeignKey('carrinho.id'))
+    
 
     # cupons(many) <-> usuario(one)
     cupons = db.relationship('Cupons', backref='usuario')

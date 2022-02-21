@@ -13,7 +13,7 @@ class UsuarioDetalhes(MethodView):
         return jsonify(schema.dump(Usuario.query.all())),200
 
     def post(self):
-        dados = request.json      
+        dados = request.json    
         schema = UsuarioSchema()  
         usuario = schema.load(dados)
         db.session.add(usuario)

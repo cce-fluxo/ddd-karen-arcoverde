@@ -27,4 +27,4 @@ class Carrinho(BaseModel):
         MotosCarrinho_id = db.Column(db.Integer, db.ForeignKey('MotosCarrinho.id'))
 
         # carrinho(one) <-> usuario(one)
-        usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+        usuario = db.relationship('Usuario', backref='Carrinho', uselist=False)
