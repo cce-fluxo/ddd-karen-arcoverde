@@ -13,8 +13,10 @@ class CarrosCarrinhoDetalhes(MethodView):
         return jsonify(schema.dump(CarrosCarrinho.query.all())),200
 
     def post(self):
-        dados = request.json      
-        schema = CarrosCarrinhoSchema()  
+        dados = request.json        
+    
+        schema = CarrosCarrinhoSchema()     
+
         carroscarrinho = schema.load(dados)
 
         db.session.add(carroscarrinho)
