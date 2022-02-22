@@ -1,69 +1,70 @@
 from flask.views import MethodView
-from flask import request, jsonify
+from flask import request, jsonify, abort,make_response
 from app.extensions import db
 from app.cupons.model import Cupons
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import bcrypt
+from sqlalchemy import exc
+from app.cupons.schema import CuponsSchema
 
 class CuponsDetalhes(MethodView): 
     def get(self):
-        cupons = Cupons.query.all()
-        return jsonify([cupom.json() for cupom in cupons]),200
+        schema = CuponsSchema(many = True)
+        return jsonify(schema.dump(Cupons.query.all())),200
 
     def post(self):
-        dados = request.json        
-        codigo_cupom = dados.get('codigo_cupom')
-        valor_desconto = dados.get('valor_desconto')
-        quantidade = dados.get('quantidade')
-        categoria = dados.get('categoria')
+        dados = request.json      
+        schema = CuponsSchema()  
+        cupons = schema.load(dados)
 
-
-        if isinstance (codigo_cupom,int) and isinstance (valor_desconto,str) and isinstance (quantidade,int) and isinstance (categoria,str):
-            cupom = Cupons(codigo_cupom= codigo_cupom, valor_desconto = valor_desconto, quantidade = quantidade, categoria = categoria)
-            db.session.add(cupom)
+        db.session.add(cupons)
+        try:
             db.session.commit()
-            return cupom.json(),200
-        return {"code_status":"invalid data in request"},400
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))   
+
+        return schema.dump(cupons),200
 
 class CuponsId(MethodView):
-    def get (self,id):
-        cupom = Cupons.query.get_or_404(id)
-        return cupom.json()
+    def get(self, id):
+        schema = CuponsSchema(many = True)
+        
+        cupons = Cupons.query.get_or_404(id)
+        return schema.dump(cupons),200
 
-    def put (self,id):
-        dados = request.json
-        codigo_cupom = dados.get('codigo_cupom')
-        valor_desconto = dados.get('valor_desconto')
-        quantidade = dados.get('quantidade')
-        categoria = dados.get('categoria')
+    def put(self, id):
+        cupons = Cupons.query.get_or_404(id)
+        schema = CuponsSchema()
+        cupons = schema.load(request.json,instance=cupons)
 
-        cupom = Cupons.query.get_or_404(id)
-        cupom.codigo_cupom = codigo_cupom
-        cupom.valor_desconto = valor_desconto
-        cupom.quantidade = quantidade
-        cupom.categoria = categoria
+        db.session.add(cupons)
+        try:
+            db.session.commit()
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+        return schema.dump(cupons),200
+
+    def patch(self, id):
+        cupons = Cupons.query.get_or_404(id)
+        schema = CuponsSchema()
+        cupons = schema.load(request.json, instance=cupons, partial = True)
+
+        db.session.add(cupons)
+        try:
+            db.session.commit()
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+        return schema.dump(cupons),200
+
+    def delete(self, id):
+        cupons = Cupons.query.get_or_404(id)
+        db.session.delete(cupons)
         db.session.commit()
-        return cupom.json(),200
-      
-
-    def patch (self,id):
-        dados = request.json
-        cupom = Cupons.query.get_or_404 (id)
-  
-        codigo_cupom = dados.get('codigo_cupom',Cupons.codigo_cupom)
-        valor_desconto = dados.get('valor_desconto', Cupons.valor_desconto)
-        quantidade = dados.get('quantidade',Cupons.quantidade)
-        categoria = dados.get('categoria',Cupons.categoria)
-
-        cupom.codigo_cupom = codigo_cupom
-        cupom.valor_desconto = valor_desconto
-        cupom.quantidade = quantidade
-        cupom.categoria = categoria
-        db.session.commit()
-        return cupom.json(),200
-    
-
-    def delete(self,id):
-        cupom = Cupons.query.get_or_404(id)
-        db.session.delete (cupom)
-        db.session.commit ()
-        return {"code_status":"deletado"},200
+        return {}, 200
 

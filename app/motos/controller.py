@@ -1,101 +1,69 @@
 from flask.views import MethodView
-from flask import request, jsonify
+from flask import request, jsonify, abort,make_response
 from app.extensions import db
 from app.motos.model import Motos
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import bcrypt
+from sqlalchemy import exc
+from app.motos.schema import MotosSchema
 
 class MotosDetalhes(MethodView): 
     def get(self):
-        motos = Motos.query.all()
-        return jsonify([moto.json() for moto in motos]),200
+        schema = MotosSchema(many = True)
+        return jsonify(schema.dump(Motos.query.all())),200
 
     def post(self):
-        dados = request.json        
-        cor = dados.get('cor')
-        descricao = dados.get('descricao')
-        modelo = dados.get('modelo')
-        marca = dados.get('marca')
-        ano_fabricacao = dados.get('ano_fabricacao')
-        motor = dados.get('motor')
-        estoque = dados.get('estoque')
-        preco = preco.get('preco')
-        nacional = nacional.get('nacional')
-        importada = importada.get ('importada')
+        dados = request.json      
+        schema = MotosSchema()  
+        motos = schema.load(dados)
 
-
-        if isinstance (cor,str) and isinstance (descricao,str) and isinstance (modelo,str) and isinstance (marca,str) and isinstance (ano_fabricacao,int) and isinstance (motor,str) and isinstance (estoque,int) and isinstance (preco,int) and isinstance (nacional,bool) and isinstance (importada,bool):
-            moto = Motos(cor= cor, descricao = descricao, modelo = modelo, marca = marca, ano_fabricacao = ano_fabricacao, motor = motor, estoque = estoque, preco = preco, nacional = nacional, importada = importada)
-            db.session.add(moto)
+        db.session.add(motos)
+        try:
             db.session.commit()
-            return moto.json(),200
-        return {"code_status":"invalid data in request"},400
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+
+        return schema.dump(motos),200
 
 class MotosId(MethodView):
-    def get (self,id):
-        carro = Motos.query.get_or_404(id)
-        return carro.json()
+    def get(self, id):
+        schema = MotosSchema(many = True)
+        
+        motos = Motos.query.get_or_404(id)
+        return schema.dump(motos),200
 
-    def put (self,id):
-        dados = request.json
-        cor = dados.get('cor')
-        descricao = dados.get('descricao')
-        modelo = dados.get('modelo')
-        marca = dados.get('marca')
-        ano_fabricacao = dados.get('ano_fabricacao')
-        motor = dados.get('motor')
-        estoque = dados.get('estoque')
-        preco = preco.get('preco')
-        nacional = nacional.get('nacional')
-        importada = importada.get ('importada')
+    def put(self, id):
+        motos = Motos.query.get_or_404(id)
+        schema = MotosSchema()
+        motos = schema.load(request.json,instance=motos)
 
+        db.session.add(motos)
+        try:
+            db.session.commit()
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+        return schema.dump(motos),200
 
-        carro = Motos.query.get_or_404(id)
-        carro.cor = cor
-        carro.descricao = descricao
-        carro.modelo = modelo
-        carro.marca = marca
-        carro.ano_fabricacao = ano_fabricacao
-        carro.motor = motor
-        carro.estoque = estoque
-        carro.preco = preco
-        nacional = nacional.get ('nacional')
-        importada = importada.get ('importada')
+    def patch(self, id):
+        motos = Motos.query.get_or_404(id)
+        schema = MotosSchema()
+        motos = schema.load(request.json, instance=Motos, partial = True)
+
+        db.session.add(motos)
+        try:
+            db.session.commit()
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+        return schema.dump(motos),200
+
+    def delete(self, id):
+        motos= Motos.query.get_or_404(id)
+        db.session.delete(motos)
         db.session.commit()
-        return carro.json(),200
-      
-
-    def patch (self,id):
-        dados = request.json
-        moto = Motos.query.get_or_404 (id)
-  
-        cor = dados.get('cor')
-        descricao = dados.get('descricao')
-        modelo = dados.get('modelo')
-        marca = dados.get('marca')
-        ano_fabricacao = dados.get('ano_fabricacao')
-        motor = dados.get('motor')
-        estoque = dados.get('estoque')
-        preco = preco.get('preco')
-        nacional = nacional.get('nacional')
-        importada = importada.get ('importada')
-
-        moto = Motos.query.get_or_404(id)
-        moto.cor = cor
-        moto.descricao = descricao
-        moto.modelo = modelo
-        moto.marca = marca
-        moto.ano_fabricacao = ano_fabricacao
-        moto.motor = motor
-        moto.estoque = estoque
-        moto.preco = preco
-        nacional = nacional.get ('nacional')
-        importada = importada.get ('importada')
-        db.session.commit()
-        return moto.json(),200
-    
-
-    def delete(self,id):
-        carro = Motos.query.get_or_404(id)
-        db.session.delete (carro)
-        db.session.commit ()
-        return {"code_status":"deletado"},200
-
+        return {}, 200

@@ -1,4 +1,6 @@
 from app.extensions import db
+from app.models import BaseModel
+from sqlalchemy.orm import backref
 
 # Carrinho
 # tabela com as informações necessárias para poder pagar o que contem no carrinho
@@ -8,7 +10,7 @@ from app.extensions import db
 # quantidade => quantidade de itens no carrinho
 # preco_total => preço total, incluindo tudo que foi colocado no carrinho
 
-class Carrinho(db.Model):
+class Carrinho(BaseModel):
         __tablename__ = 'carrinho'
         id = db.Column(db.Integer, primary_key = True)
         forma_pagamento = db.Column(db.String(40), nullable = False)
@@ -19,20 +21,11 @@ class Carrinho(db.Model):
         # carrinho(one) <-> cupons(one)
         cupons_id = db.Column(db.Integer, db.ForeignKey('cupons.id'))
 
-        # novidades carrinho(many) <-> carrinho(one)
-        novidades_carrinho = db.relationship('NovidadesCarrinho', backref = 'novidadesCarrinho_carrinho')
+        # carros carrinho (many) <-> carrinho(one)
+        CarrosCarrinho_id = db.Column(db.Integer, db.ForeignKey('CarrosCarrinho.id'))
 
-        # produtos carrinho(many) <-> carrinho(one)
-        produtos_carrinho = db.relationship('ProdutosCarrinho', backref = 'produtosCarrinho_carrinho')
+        # motos carrinho (many) <-> carrinho(one)
+        MotosCarrinho_id = db.Column(db.Integer, db.ForeignKey('MotosCarrinho.id'))
 
         # carrinho(one) <-> usuario(one)
         usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
-       
-        def json(self):
-                return{
-                'id':self.id,
-                'forma_pagamento':self.forma_pagamento,
-                'preco_frete':self.preco_frete,
-                'quantidade':self.quantidade,
-                'preco_total':self.preco_total
-                }

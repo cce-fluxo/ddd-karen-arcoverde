@@ -1,4 +1,9 @@
 from ..extensions import db
+from app.models import BaseModel
+import bcrypt
+from flask_jwt_extended import create_access_token
+from sqlalchemy.orm import backref
+
 
 # Usuario
 # tabela que contem as configurações do usuário
@@ -9,7 +14,7 @@ from ..extensions import db
 # telefone => telefone residencial ou celular do usuário
 # endereco => endereço completo do usuário: rua, número, complemento etc.
 
-class Usuario(db.Model):
+class Usuario(BaseModel):
     __tablename__ = 'usuario'
     id = db.Column(db.Integer, primary_key = True)
     nome = db.Column(db.String(30), nullable = False)
@@ -23,15 +28,20 @@ class Usuario(db.Model):
     carrinho = db.relationship('Carrinho', backref='Usuario', uselist=False)
 
     # cupons(many) <-> usuario(one)
-    cupom = db.relationship('Cupons', backref='cupons_usuario')
+    cupons = db.relationship('Cupons', backref='usuario')
 
-    def json(self):
-            return{
-                'id':self.id,
-                'nome':self.nome,
-                'cpf':self.cpf,
-                'email':self.email,
-                'telefone':self.telefone,
-                'endereco':self.endereco
-            }
-            
+    @property
+    def senha(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @senha.setter
+    def senha(self, senha) -> None:
+        self.senha_hash = bcrypt.hashpw(
+            senha.encode(), bcrypt.gensalt())
+
+    def verify_senha(self, senha: str) -> bool:
+        return bcrypt.checkpw(senha.encode(), self.senha_hash)
+
+    def token(self) -> str:
+        return create_access_token(
+            identity=self.id)

@@ -1,4 +1,5 @@
 from app.extensions import db
+from app.models import BaseModel
 
 # Carros
 # tabela que contem as informações sobre todos os carros
@@ -14,7 +15,7 @@ from app.extensions import db
 # nacional => se o carro é nacional (true) ou não (false)
 # importada => se o carro é importado (true) ou não (false)
 
-class Carros(db.Model):
+class Carros(BaseModel):
         __tablename__ = 'carros'
         id = db.Column(db.Integer, primary_key = True)
         cor = db.Column(db.String(10), nullable = False)
@@ -30,18 +31,3 @@ class Carros(db.Model):
 
         # carros(one) <-> carros carrinho(many)
         carros_carrinho = db.relationship('CarrosCarrinho', backref = 'carrosCarrinho')
-
-        def json(self):
-                return{
-                'id':self.id,
-                'cor':self.cor,
-                'descricao':self.descricao,
-                'modelo':self.modelo,
-                'marca':self.marca,
-                'ano_fabricacao':self.ano_fabricacao,
-                'motor':self.motor,
-                'estoque':self.estoque,
-                'preco':self.preco,
-                'nacional':self.nacional,
-                'importada':self.importada
-                }

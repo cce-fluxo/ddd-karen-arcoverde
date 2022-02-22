@@ -1,72 +1,75 @@
 from flask.views import MethodView
-from flask import request, jsonify
+from flask import request, jsonify, abort,make_response
 from app.extensions import db
 from app.carrosCarrinho.model import CarrosCarrinho
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import bcrypt
+from sqlalchemy import exc
+from app.carrosCarrinho.schema import CarrosCarrinhoSchema
 
 class CarrosCarrinhoDetalhes(MethodView): 
     def get(self):
-        carroscarrinho = CarrosCarrinho.query.all()
-        return jsonify([carrocarrinho.json() for carrocarrinho in carroscarrinho]),200
+        schema = CarrosCarrinhoSchema(many = True)
+        return jsonify(schema.dump(CarrosCarrinho.query.all())),200
 
     def post(self):
         dados = request.json        
-        modelo = dados.get('modelo')
-        marca = dados.get('marca')
-        quantidade = dados.get('quantidade')
-        preco_unitario = dados.get('preco_unitario')
-       
+    
+        schema = CarrosCarrinhoSchema()    
+        quantidade = dados["quantidade"]
+        preco_unitario = dados["preco_unitario"]
         preco_total = quantidade * preco_unitario
-       
-        if isinstance (modelo,str) and isinstance (marca,str) and isinstance (quantidade,int) and isinstance (preco_unitario,int) and isinstance (preco_total,int):
-            novidadecarrinho = CarrosCarrinho(modelo= modelo, marca = marca, quantidade = quantidade, preco_unitario = preco_unitario, preco_total = preco_total)
-            db.session.add(novidadecarrinho)
+        dados["preco_total"] = preco_total
+
+        carroscarrinho = schema.load(dados)
+
+        db.session.add(carroscarrinho)
+        try:
             db.session.commit()
-            return novidadecarrinho.json(),200
-        return {"code_status":"invalid data in request"},400
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+        
+        return schema.dump(carroscarrinho),200
 
 class CarrosCarrinhoId(MethodView):
-    def get (self,id):
-        carrocarrinho = CarrosCarrinho.query.get_or_404(id)
-        return carrocarrinho.json()
+    def get(self, id):
+        schema = CarrosCarrinhoSchema(many = True)
+        
+        carros = CarrosCarrinho.query.get_or_404(id)
+        return schema.dump(carros),200
 
-    def put (self,id):
-        dados = request.json
-        modelo = dados.get('modelo')
-        marca = dados.get('marca')
-        quantidade = dados.get('quantidade')
-        preco_unitario = dados.get('preco_unitario')
+    def put(self, id):
+        carroscarrinho = CarrosCarrinho.query.get_or_404(id)
+        schema = CarrosCarrinhoSchema()
+        carroscarrinho = schema.load(request.json,instance=carroscarrinho)
 
-        carrocarrinho = CarrosCarrinho.query.get_or_404(id)
-        carrocarrinho.modelo = modelo
-        carrocarrinho.marca = marca
+        db.session.add(carroscarrinho)
+        try:
+            db.session.commit()
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+        return schema.dump(carroscarrinho),200
 
-        carrocarrinho.quantidade = quantidade
-        carrocarrinho.preco_unitario = preco_unitario
+    def patch(self, id):
+        carroscarrinho = CarrosCarrinho.query.get_or_404(id)
+        schema = CarrosCarrinhoSchema()
+        carroscarrinho = schema.load(request.json, instance=carroscarrinho, partial = True)
+
+        db.session.add(carroscarrinho)
+        try:
+            db.session.commit()
+        except exc.IntegrityError as err:
+            db.session.rollback()
+            abort(
+                make_response(jsonify({'errors':str(err.orig)},400)))
+        return schema.dump(carroscarrinho),200
+
+    def delete(self, id):
+        carroscarrinho = CarrosCarrinho.query.get_or_404(id)
+        db.session.delete(carroscarrinho)
         db.session.commit()
-        return carrocarrinho.json(),200
-      
-
-    def patch (self,id):
-        dados = request.json
-        carrocarrinho= CarrosCarrinho.query.get_or_404 (id)
-  
-        modelo= dados.get('modelo',CarrosCarrinho.modelo)
-        marca= dados.get('marca',CarrosCarrinho.marca)
-        quantidade = dados.get('quantidade', CarrosCarrinho.quantidade)
-        preco_unitario = dados.get('preco_unitario',CarrosCarrinho.preco_unitario)
-     
-
-        carrocarrinho.modelo = modelo
-        carrocarrinho.marca = marca
-        carrocarrinho.quantidade = quantidade
-        carrocarrinho.preco_unitario = preco_unitario
-        db.session.commit()
-        return carrocarrinho.json(),200
-    
-
-    def delete(self,id):
-        carrocarrinho = CarrosCarrinho.query.get_or_404(id)
-        db.session.delete (carrocarrinho)
-        db.session.commit ()
-        return {"code_status":"deletado"},200
-
+        return {}, 200
