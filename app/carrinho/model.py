@@ -1,5 +1,6 @@
 from app.extensions import db
 from app.models import BaseModel
+from sqlalchemy.orm import backref
 
 # Carrinho
 # tabela com as informações necessárias para poder pagar o que contem no carrinho
@@ -27,4 +28,4 @@ class Carrinho(BaseModel):
         MotosCarrinho_id = db.Column(db.Integer, db.ForeignKey('MotosCarrinho.id'))
 
         # carrinho(one) <-> usuario(one)
-        usuario = db.relationship('Usuario', backref='Carrinho', uselist=False)
+        usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))

@@ -2,6 +2,7 @@ from ..extensions import db
 from app.models import BaseModel
 import bcrypt
 from flask_jwt_extended import create_access_token
+from sqlalchemy.orm import backref
 
 
 # Usuario
@@ -24,8 +25,7 @@ class Usuario(BaseModel):
     senha_hash = db.Column(db.String(200),nullable = False) 
 
     # carrinho(one) <-> usuario(one)
-    carrinho_id = db.Column(db.Integer, db.ForeignKey('carrinho.id'))
-    
+    carrinho = db.relationship('Carrinho', backref='Usuario', uselist=False)
 
     # cupons(many) <-> usuario(one)
     cupons = db.relationship('Cupons', backref='usuario')

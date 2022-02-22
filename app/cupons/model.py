@@ -1,5 +1,6 @@
 from app.extensions import db
 from app.models import BaseModel
+from sqlalchemy.orm import backref
 
 # Cupons
 # tabela com as informações dos cupons de desconto
@@ -21,4 +22,4 @@ class Cupons(BaseModel):
         usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
         # carrinho(one) <-> cupons(one)
-        carrinho = db.relationship("Carrinho", backref='Cupons', uselist=False)
+        carrinho = db.relationship("Carrinho", backref='cupons', uselist=False)
