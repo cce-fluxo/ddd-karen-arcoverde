@@ -16,3 +16,8 @@ class UsuarioSchema(ma.SQLAlchemySchema):
     telefone=ma.Integer(required=True)
     endereco=ma.String(required=True)
     senha = ma.String(Load_only=True, required=True)
+
+    
+class LoginSchema(ma.Schema):
+    email = ma.Email(required=True)
+    senha = ma.String(load_only=True, required=True)

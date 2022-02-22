@@ -5,7 +5,7 @@ from app.usuario.model import Usuario
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import bcrypt
 from sqlalchemy import exc
-from app.usuario.schema import UsuarioSchema
+from app.usuario.schema import UsuarioSchema, LoginSchema
 
 class UsuarioDetalhes(MethodView): 
     def get(self):
@@ -82,11 +82,12 @@ class UsuarioId(MethodView): #/usuarios/<int:id>
 
 class UsuarioLogin(MethodView):  #/login
     def post(self):
-        dados = request.json 
+        schema = LoginSchema()
+        dados = schema.load(request.json)
+        usuario = Usuario.query.filter_by(email=dados['email']).first()
+
         email = dados.get('email')
         senha = dados.get('senha')
-
-        usuario = Usuario.query.filter_by(email=email).first()
 
         if (not usuario) or (not bcrypt.checkpw(senha.encode(), usuario.senha_hash)):
             return {'error':'Email ou senha inválida'}, 400

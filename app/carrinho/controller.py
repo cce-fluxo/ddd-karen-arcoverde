@@ -7,6 +7,7 @@ import bcrypt
 from sqlalchemy import exc
 from app.carrinho.schema import CarrinhoSchema
 
+
 class CarrinhoDetalhes(MethodView): 
     def get(self):
         schema = CarrinhoSchema(many = True)
@@ -15,6 +16,7 @@ class CarrinhoDetalhes(MethodView):
     def post(self):
         dados = request.json      
         schema = CarrinhoSchema()  
+
         carrinho = schema.load(dados)
 
         db.session.add(carrinho)
