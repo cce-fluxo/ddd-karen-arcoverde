@@ -11,6 +11,8 @@ from app.motos.routes import motos_api
 from app.carrosCarrinho.routes import carroscarrinho_api
 from app.motosCarrinho.routes import motoscarrinho_api
 
+from app.storages.routes import storage_api
+
 # cria o app
 def create_app():
     # instanciacao do aplicativo
@@ -33,5 +35,6 @@ def create_app():
     app.register_blueprint(motos_api)
     app.register_blueprint(carroscarrinho_api)
     app.register_blueprint(motoscarrinho_api)
+    app.register_blueprint(storage_api)
 
     return app
