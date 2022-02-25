@@ -1,12 +1,12 @@
 from flask.views import MethodView
-from app.storage import storage
+from ..utils.storage import storage
 import uuid
+from flask import request
 
-class FileStorage(MethodView):
-    def get (self, formato):
-        file_key = f'{uuid.uuid4().hex}.{formato}'
+class MediaStorage(MethodView): #/files/put_url
+    def get (self):
+        file_format = request.args.get('file_format')
+        file_name = f'{uuid.uuid4().hex}.{file_format}'
+        url = storage.put_url(file_key=file_name)
 
-        url = storage.put_url(file_key=file_key)
-
-        return {'url': url,
-                'nome': file_key}
+        return {'media_url': url,'file_name': file_name},200
