@@ -4,8 +4,8 @@ from os import environ
 class Config:
 
     # DATABASE - configuracao da database (modo web-dev)
-    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
-    #SQLALCHEMY_DATABASE_URI = 'postgresql://xmllxaborlhjoa:6cf5a4a2c0e17a9fbaab5fc31cc5b77a79e8f606131da1c1991dfccfb2df04cf@ec2-18-215-8-186.compute-1.amazonaws.com:5432/dd294jgair37p6'
+    #SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = 'postgresql://vgifbcrfnfcjvd:5a0cea7f8e6b655c3f2e1c1e4ede236bd2e017d75a182ef3e1e251dbd9e8ecb9@ec2-35-175-68-90.compute-1.amazonaws.com:5432/dtuq3881p2oip'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Application - configuracao da comunicacao com o front-end
