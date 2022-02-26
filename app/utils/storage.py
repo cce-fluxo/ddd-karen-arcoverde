@@ -5,7 +5,7 @@ class Storage:
     project_name = 'ddd-karen'
     session = boto3.session.Session()
     client = session.client ('s3',
-                            region_name = 'nc3',
+                            region_name = 'nyc3',
                             endpoint_url = "https://nyc3.digitaloceanspaces.com",
                             aws_access_key_id=environ.get('AWS_SECRET_ACCESS_KEY_ID'),
                             aws_secret_access_key=environ.get(

@@ -5,7 +5,7 @@ class Config:
 
     # DATABASE - configuracao da database (modo web-dev)
     SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
-    #SQLALCHEMY_DATABASE_URI = 'postgresql://nxiwlmkqeysyss:ae5f07929051fb235357c3593be6f637ef079cb1610bc1123f5069635f1441e4@ec2-52-73-149-159.compute-1.amazonaws.com:5432/d8vej5eg6c8eqv'
+    #SQLALCHEMY_DATABASE_URI = 'postgresql://pfzlijcxfrxjne:7c714f5c21d3a9cc2fa6c33e10b1e95415d7fd2a08961ac0ad3ac9763eada233@ec2-52-73-149-159.compute-1.amazonaws.com:5432/d2sdhlka78qcu5'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Application - configuracao da comunicacao com o front-end
