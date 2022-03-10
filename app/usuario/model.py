@@ -3,7 +3,7 @@ from app.models import BaseModel
 import bcrypt
 from flask_jwt_extended import create_access_token
 from sqlalchemy.orm import backref
-from app import storage
+from app.utils import storage
 
 # Usuario
 # tabela que contem as configurações do usuário
