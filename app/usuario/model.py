@@ -3,7 +3,7 @@ from app.models import BaseModel
 import bcrypt
 from flask_jwt_extended import create_access_token
 from sqlalchemy.orm import backref
-
+from app import storage
 
 # Usuario
 # tabela que contem as configurações do usuário
@@ -29,6 +29,18 @@ class Usuario(BaseModel):
 
     # cupons(many) <-> usuario(one)
     cupons = db.relationship('Cupons', backref='usuario')
+
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            return storage.get_url(self.avatar)
+        return None
+
+    @avatar_url.setter
+    def avatar_url(self,name):
+        if self.avatar:
+            storage.delete_object(self.avatar)
+        self.avatar = name
 
     @property
     def senha(self):
