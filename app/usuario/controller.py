@@ -14,7 +14,8 @@ class UsuarioDetalhes(MethodView):
 
     def post(self):
         dados = request.json    
-        schema = UsuarioSchema()  
+        schema = UsuarioSchema() 
+        usuario.senha(dados['senha'])
         usuario = schema.load(dados)
         db.session.add(usuario)
         try:
