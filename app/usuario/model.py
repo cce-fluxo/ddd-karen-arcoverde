@@ -13,6 +13,8 @@ from app.utils import storage
 # email => email do usuário
 # telefone => telefone residencial ou celular do usuário
 # endereco => endereço completo do usuário: rua, número, complemento etc.
+# senha => senha do usuário para fazer o login
+# avatar => Foto de identificação do usuário relacionado ao digital ocean
 
 class Usuario(BaseModel):
     __tablename__ = 'usuario'
@@ -23,6 +25,7 @@ class Usuario(BaseModel):
     telefone = db.Column(db.String(15), nullable = False)
     endereco = db.Column(db.String(150), nullable = False)
     senha_hash = db.Column(db.LargeBinary(128),nullable = False) 
+    avatar = db.Column(db.String(64), unique = True, default = None )
 
     # carrinho(one) <-> usuario(one)
     carrinho = db.relationship('Carrinho', backref='Usuario', uselist=False)

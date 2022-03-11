@@ -14,6 +14,18 @@ Link: https://silver-motors-karen.herokuapp.com/
 
 ![diagrama silver motors novo](https://user-images.githubusercontent.com/59583521/154323914-9eb4e9cf-ee8a-46e8-8bbf-74b820d04d83.png)
 
+### Usuário
+|Campo|Tipo|Argumentos|Descrição|
+|-----|-----|-----|-----|
+|nome|string(30)|nullable(False)|Nome do usuário|
+|cpf|string(15)|nullable(False)|cpf do usuário|
+|email|string(50)|nullable(False) unique(True)|E-mail do usuário|
+|telefone|string(15)|nullable(False)|Telefone do usuário|
+|endereco|string(150)|nullable(False)|Endereço do usuário|
+|senha_hash|largebinary(128)|nullable(False)|Senha hashed do usuário|
+|avatar|string(100)|default(foto_base)|Foto de identificação do usuário relacionado ao digital ocean|
+
+
 
 ***
 ## Rotas
