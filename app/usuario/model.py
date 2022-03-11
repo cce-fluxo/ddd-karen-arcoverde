@@ -49,10 +49,10 @@ class Usuario(BaseModel):
     @senha.setter
     def senha(self, senha) -> None:
         self.senha_hash = bcrypt.hashpw(
-            senha.encode('utf8'), bcrypt.gensalt())
+            senha.encode('UTF_8'), bcrypt.gensalt())
 
     def verify_senha(self, senha: str) -> bool:
-        return bcrypt.checkpw(senha.encode('utf8'), self.senha_hash)
+        return bcrypt.checkpw(senha.encode('UTF_8'), self.senha_hash)
 
     def token(self) -> str:
         return create_access_token(
