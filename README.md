@@ -17,26 +17,13 @@ Link: https://silver-motors-karen.herokuapp.com/
 
 ***
 ## Rotas
-|Endpoint|Metodo|Descrição|
+|Endpoint|Método|Descrição|
 |-----|-----|-----|
-|/login|POST|Usuario qualquer envia email e senha para fazer login|
-|/send_mail/reset|POST| caso tenha esquecido a senha, token enviado por email|
-|/reset/<string:token>|PATCH|Usuario registrado envia nova senha|
-|/medico/create|GET|visualização de todos os médicos|
-|/medico/create|POST|cadastro de novo médico|
-|/medico/details/<int:id>|GET|Medico logado pode ver suas informações|
-|/medico/details/<int:id>|PUT|Medico logado pode alterar todas suas informações|
-|/medico/details/<int:id>|PATCH|Medico logado pode alterar alguma de suas informações|
-|/medico/details/<int:id>|DELETE|Medico logado pode deletar seu perfil|
-|/paciente/create|GET|visualização de todos pacientes|
-|/paciente/create|POST|cadastro de novo paciente|
-|/paciente/details/<int:id>|GET|paciente logado pode ver suas informações|
-|/paciente/details/<int:id>|PUT|paciente logado pode alterar todas suas informações|
-|/paciente/details/<int:id>|PATCH|paciente logado pode alterar alguma de suas informações|
-|/paciente/details/<int:id>|DELETE|paciente logado pode deletar seu perfil|
+|/login|POST|Usuario qualquer envia email e senha para fazer login e recebe seu token|
+|/usuarios|GET|visualização de todos os usuários|
+|/usuarios|POST|cadastro de novo usuário|
+|/usuarios/<int:id>|GET|usuario logado pode ver suas informações, usando seu token|
 |/files/put_url/formato|GET|para pegar o caminho do digital ocean|
-|/consulta|GET|para visualizar todas as consultas do sistema|
-|/consulta|POST|Criar nova consulta com a data, hora, id do medico e do paciente|
 
 ***
 ## Exemplos
