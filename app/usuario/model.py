@@ -22,7 +22,7 @@ class Usuario(BaseModel):
     email = db.Column(db.String(50), unique = True, nullable = False)
     telefone = db.Column(db.String(15), nullable = False)
     endereco = db.Column(db.String(150), nullable = False)
-    senha_hash = db.Column(db.String(200),nullable = False) 
+    senha_hash = db.Column(db.LargeBinary(128),nullable = False) 
 
     # carrinho(one) <-> usuario(one)
     carrinho = db.relationship('Carrinho', backref='Usuario', uselist=False)
@@ -49,10 +49,10 @@ class Usuario(BaseModel):
     @senha.setter
     def senha(self, senha) -> None:
         self.senha_hash = bcrypt.hashpw(
-            senha.encode('UTF_8'), bcrypt.gensalt())
+            senha.encode(), bcrypt.gensalt())
 
-    def verify_senha(self, senha: str) -> bool:
-        return bcrypt.checkpw(senha.encode('UTF_8'), self.senha_hash)
+    def verify_senha(self, senha) -> bool:
+        return bcrypt.checkpw(senha.encode(), self.senha_hash)
 
     def token(self) -> str:
         return create_access_token(
