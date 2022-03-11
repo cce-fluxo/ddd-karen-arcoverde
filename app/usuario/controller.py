@@ -86,10 +86,7 @@ class UsuarioLogin(MethodView):  #/login
         dados = schema.load(request.json)
         usuario = Usuario.query.filter_by(email=dados['email']).first()
 
-        email = dados.get('email')
-        senha = dados.get('senha')
-
-        if (not usuario) or (not bcrypt.checkpw(senha.encode('utf-8'), usuario.senha_hash)):
+        if (not usuario) or not usuario.verify_senha(dados['senha']):
             return {'error':'Email ou senha inválida'}, 400
         
         token = create_access_token(identity=usuario.id)
