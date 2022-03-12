@@ -13,6 +13,10 @@ from app.motosCarrinho.routes import motoscarrinho_api
 
 from app.storages.routes import storage_api
 
+from app.esquecisenha.routes import esquecisenha_api
+from app.extensions import  mail as mail
+
+
 # cria o app
 def create_app():
     # instanciacao do aplicativo
@@ -36,5 +40,6 @@ def create_app():
     app.register_blueprint(carroscarrinho_api)
     app.register_blueprint(motoscarrinho_api)
     app.register_blueprint(storage_api)
+    app.register_blueprint(esquecisenha_api)
 
     return app
