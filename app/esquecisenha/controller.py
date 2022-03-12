@@ -16,8 +16,8 @@ class SenhaMail(MethodView):#/send_mail/reset
         dados = schema.load(request.json)
         usuario = Usuario.query.filter_by(email=dados['email']).first()
         if usuario:
-            token = create_access_token(identity=user.id,additional_claims={'user_type' : "usuario"})
-            refresh_token = create_refresh_token(identity=user.id, additional_claims={'user_type': "usuario"})
+            token = create_access_token(identity=usuario.id,additional_claims={'user_type' : "usuario"})
+            refresh_token = create_refresh_token(identity=usuario.id, additional_claims={'user_type': "usuario"})
     
         else:
             return {"Error":"Esse email não está cadastrado cadastrado"}, 400
