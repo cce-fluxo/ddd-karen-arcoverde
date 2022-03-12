@@ -14,7 +14,7 @@ from app.motosCarrinho.routes import motoscarrinho_api
 from app.storages.routes import storage_api
 
 from app.esquecisenha.routes import esquecisenha_api
-from app.extensions import  mail as mail
+from app.extensions import mail as mail
 
 
 # cria o app
@@ -30,6 +30,7 @@ def create_app():
     migrate.init_app(app,db)
     jwt.init_app(app)
     ma.init_app(app)
+    mail.init_app(app)
 
     # rotas implementadas
     app.register_blueprint(usuario_api)
