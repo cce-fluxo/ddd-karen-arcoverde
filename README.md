@@ -93,6 +93,7 @@ Link: https://silver-motors-karen.herokuapp.com/
 {
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0NzQ2NDYxMiwianRpIjoiNzk2NWJlM2ItMDc4YS00Njc5LTkxYmEtZTJiMjhjOTc1YjAyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjQ3NDY0NjEyLCJleHAiOjE2NDc0NjU1MTJ9.21ppfPpcGyu1nQegt7PwkL19Ro-26R3blEVG_lGC-nk"
 }
+```
 
 ### POST /usuarios
 ```
