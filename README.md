@@ -38,9 +38,9 @@ Link: https://silver-motors-karen.herokuapp.com/
 |/usuarios|GET|visualização de todos os usuários|
 |/usuarios|POST|cadastro de novo usuário|
 |/usuarios/<int:id>|GET|usuario logado pode ver suas informações, usando seu token|
-|/usuario/<int:id>|PUT|Usuario logado pode alterar todas suas informações, usando seu token|
-|/usuario/<int:id>|PATCH|Usuario logado pode alterar alguma de suas informações, usando seu token|
-|/usuario/<int:id>|DELETE|Usuario logado pode deletar seu perfil, usando seu token|
+|/usuarios/<int:id>|PUT|Usuario logado pode alterar todas suas informações, usando seu token|
+|/usuarios/<int:id>|PATCH|Usuario logado pode alterar alguma de suas informações, usando seu token|
+|/usuarios/<int:id>|DELETE|Usuario logado pode deletar seu perfil, usando seu token|
 |/carros|GET|visualização de todos os carros|
 |/carros|POST|cadastro de novo carro|
 |/carros/<int:id>|GET|carro logado pode ver suas informações|
@@ -114,6 +114,7 @@ Link: https://silver-motors-karen.herokuapp.com/
 	"telefone": 23352,
 	"endereco": "rua mena barreto"
 }
+```
 
 ### GET /files/put_url/png
 ```
@@ -124,6 +125,7 @@ Link: https://silver-motors-karen.herokuapp.com/
 	"media_url": "https://nyc3.digitaloceanspaces.com/storage-fluxo/ddd-karen/557a23c0d3ed4837b6d05f2d2765277a.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=GTT4PXUAPEWSTC5OIHPO%2F20220311%2Fnyc3%2Fs3%2Faws4_request&X-Amz-Date=20220311T011808Z&X-Amz-Expires=300&X-Amz-SignedHeaders=host&X-Amz-Signature=f02937e2e9ad4e51fcbbf8879e738274b77207a2c12933adf66a7fe75667e70b",
 	"file_name": "557a23c0d3ed4837b6d05f2d2765277a.png"
 }
+```
 
 ### POST /send_mail/reset
 ```
@@ -135,7 +137,7 @@ Link: https://silver-motors-karen.herokuapp.com/
 {
 	"Resultado": "envio feito"
 }
-
+```
 
 ### PATCH /reset/<colocar token enviado por email>
 ```
@@ -145,6 +147,6 @@ Link: https://silver-motors-karen.herokuapp.com/
 ```
 ```
 {}
-
+```
 
 
