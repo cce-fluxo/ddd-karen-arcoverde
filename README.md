@@ -24,8 +24,83 @@ Link: https://silver-motors-karen.herokuapp.com/
 |endereco|string(150)|nullable(False)|Endereço do usuário|
 |senha_hash|largebinary(128)|nullable(False)|Senha hashed do usuário|
 |avatar|string(100)|default(foto_base)|Foto de identificação do usuário relacionado ao digital ocean|
+|carrinho|relationship|||
+|cupons|relationship|||
 
 
+### Carros
+|Campo|Tipo|Argumentos|Descrição|
+|-----|-----|-----|-----|
+|cor|String(10)|nullable(False)|cor do carro: vermelho, branco, preto etc.|
+|descricao|String(50)|nullable(False)|uma breve descricao sobre o carro, história do carro etc.|
+|modelo|String(20)|nullable(False)|por exemplo Fiat Uno, modelo: Uno|
+|marca|String(20)|nullable(False)|por exemplo Fiat uno, marca: Fiat|
+|ano_fabricacao|string(150)|nullable(False)|ano em que foi fabricado o carro|
+|motor|Integer|nullable(False)|motor 1.0, 2.0 etc.|
+|estoque|Integer|quantidade de um determinado carro que tem em estoque|
+|preco|Integer|nullable(False)|preço do carro|
+|nacional|Boolean|nullable(False)|se o carro é nacional (true) ou não (false)|
+|importada|Boolean|nullable(False)|se o carro é importado (true) ou não (false)|
+|carros_carrinho|relationship|||
+
+### Motos
+|Campo|Tipo|Argumentos|Descrição|
+|-----|-----|-----|-----|
+|cor|String(10)|nullable(False)|cor da moto: vermelho, branco, preto etc.|
+|descricao|String(50)|nullable(False)|uma breve descricao sobre a moto, história da moto etc.|
+|modelo|String(20)|nullable(False)|por exemplo Fiat Uno, modelo: Uno|
+|marca|String(20)|nullable(False)|por exemplo Fiat uno, marca: Fiat|
+|ano_fabricacao|string(150)|nullable(False)|ano em que foi fabricado a moto|
+|motor|Integer|nullable(False)|motor 1.0, 2.0 etc.|
+|estoque|Integer|quantidade de um determinada moto que tem em estoque|
+|preco|Integer|nullable(False)|preço da moto|
+|nacional|Boolean|nullable(False)|se a moto é nacional (true) ou não (false)|
+|importada|Boolean|nullable(False)|se a moto é importada (true) ou não (false)|
+|motos_carrinho|relationship|||
+
+### Carrinho
+|Campo|Tipo|Argumentos|Descrição|
+|-----|-----|-----|-----|
+|forma_pagamento|String(40)|nullable(False)|pode ser PIX, boleto bancario, cartao de crédito etc.|
+|preco_frete|Integer|nullable(False)|preço diferente para cada regiao e para cada transporte|
+|quantidade|Integer|nullable(False)|quantidade de itens no carrinho|
+|preco_total|Integer|nullable(False)|preço total, incluindo tudo que foi colocado no carrinho|
+|cupons_id|relationship|||
+|CarrosCarrinho_id|relationship|||
+|MotosCarrinho_id|relationship|||
+|usuario_id|relationship|||
+
+### Cupons
+|Campo|Tipo|Argumentos|Descrição|
+|-----|-----|-----|-----|
+|codigo_cupom|Integer|nullable(False)|os cupons possuem codigos para poder inserir no carrinho de compras|
+|valor_desconto|Integer|nullable(False)|se o desconto é de 5%, 10% etc.|
+|quantidade|Integer|nullable(False)|quantidade de cupons disponíveis|
+|categoria|String(20)|nullable(False)|se o cupom só é disponível em datas comemorativas, por exemplo, natal etc.|
+|usuario_id|relationship|||
+|carrinho|relationship|||
+
+### Carros Carrinho
+|Campo|Tipo|Argumentos|Descrição|
+|-----|-----|-----|-----|
+|modelo|String(20)|nullable(False)|por exemplo Fiat Uno, modelo: Uno|
+|marca|String(20)|nullable(False)|por exemplo Fiat uno, marca: Fiat|
+|quantidade|Integer|nullable(False)|quantidade de carros colocados no carrinho|
+|preco_unitario|Integer|nullable(False)|preço de somente um carro colocado no carrinho|
+|preco_total|Integer|nullable(False)|preço total de todas os carros colocados no carrinho|
+|carrinho|relationship|||
+|carros_id|relationship|||
+
+### Motos Carrinho
+|Campo|Tipo|Argumentos|Descrição|
+|-----|-----|-----|-----|
+|modelo|String(20)|nullable(False)|por exemplo Fiat Uno, modelo: Uno|
+|marca|String(20)|nullable(False)|por exemplo Fiat uno, marca: Fiat|
+|quantidade|Integer|nullable(False)|quantidade de motos colocadas no carrinho|
+|preco_unitario|Integer|nullable(False)|preço de somente uma moto|
+|preco_total|Integer|nullable(False)|preço total de todos as motos colocadas|
+|carrinho|relationship|||
+|motos_id|relationship|||
 
 ***
 ## Rotas
@@ -149,5 +224,3 @@ Link: https://silver-motors-karen.herokuapp.com/
 ```
 {}
 ```
-
-
