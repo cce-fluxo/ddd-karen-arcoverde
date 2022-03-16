@@ -140,7 +140,7 @@ Link: https://silver-motors-karen.herokuapp.com/
 }
 ```
 
-### PATCH /reset/<colocar token enviado por email>
+### PATCH /reset/*colocar token enviado por email aqui*
 ```
 {
 	"senha":"123456"
