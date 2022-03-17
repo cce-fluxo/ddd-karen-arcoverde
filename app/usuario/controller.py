@@ -6,6 +6,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 import bcrypt
 from sqlalchemy import exc
 from app.usuario.schema import UsuarioSchema, LoginSchema
+from app.utils.filters import filter
 
 class UsuarioDetalhes(MethodView): 
     def get(self):
@@ -32,7 +33,8 @@ class UsuarioId(MethodView): #/usuarios/<int:id>
         if (get_jwt_identity() != id):
             return {'error':'Usuario não permitido'}, 400       
 
-        schema = UsuarioSchema()
+        schema = filter.getSchema(
+            qs=request.args,schema_cls=UsuarioSchema)
         
         usuario = Usuario.query.get_or_404(id)
         return schema.dump(usuario),200

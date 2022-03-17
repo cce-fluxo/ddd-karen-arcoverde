@@ -7,7 +7,6 @@ import bcrypt
 from sqlalchemy import exc
 from app.carrinho.schema import CarrinhoSchema
 
-
 class CarrinhoDetalhes(MethodView): 
     def get(self):
         schema = CarrinhoSchema(many = True)
