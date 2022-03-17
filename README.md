@@ -113,6 +113,7 @@ Link: https://silver-motors-karen.herokuapp.com/
 |/usuarios|GET|visualização de todos os usuários|
 |/usuarios|POST|cadastro de novo usuário|
 |/usuarios/<int:id>|GET|usuario logado pode ver suas informações, usando seu token|
+|/usuarios/<int:id>?fields=<atributo_1>, <atributo_2>|GET|visualização dos atributos escolhidos separados por vírgula de um determinado usuário, usando seu token|
 |/usuarios/<int:id>|PUT|Usuario logado pode alterar todas suas informações, usando seu token|
 |/usuarios/<int:id>|PATCH|Usuario logado pode alterar alguma de suas informações, usando seu token|
 |/usuarios/<int:id>|DELETE|Usuario logado pode deletar seu perfil, usando seu token|
@@ -223,4 +224,19 @@ Link: https://silver-motors-karen.herokuapp.com/
 ```
 ```
 {}
+```
+
+### GET /usuarios/1?fields=email,telefone
+*OBS: Colocar no "Bearer" o token*
+```
+{
+	"email":"karenarcoverde@poli.ufrj.br",
+	"senha":"12345"
+}
+```
+```
+{
+	"email": "karenarcoverde@poli.ufrj.br",
+	"telefone": 23352
+}
 ```
