@@ -178,7 +178,7 @@ Link: https://silver-motors-karen.herokuapp.com/
 	"email":"karenarcoverde@poli.ufrj.br",
 	"telefone":"23352",
 	"endereco":"rua mena barreto",
-	"senha":"1235"
+	"senha":"12345"
 }
 ```
 ```
